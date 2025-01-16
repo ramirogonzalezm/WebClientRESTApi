@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.dev.synlab.model.ResponseBodyRestDTO;
+import com.dev.synlab.utils.Constants;
 
 import reactor.core.publisher.Mono;
 
@@ -23,13 +24,24 @@ public class UserService {
 	public List<ResponseBodyRestDTO> getUsers() {
 		
 		List<ResponseBodyRestDTO> responseBodyRestDTOs = webClient.get()
-				.uri("https://6787d626c4a42c9161087246.mockapi.io/api/users")
+				.uri("/users")
 				.retrieve()
 				.bodyToMono(List.class)
 				.onErrorResume(e -> Mono.empty())
 				.block();
 		
 		return responseBodyRestDTOs;
+	}
+	
+	public ResponseBodyRestDTO getUserById(int id) {
+		ResponseBodyRestDTO responseBodyRestDTO = webClient.get()
+				.uri(uriBuilder -> uriBuilder
+						.path("/api/users/{id}")
+						.build(id))
+				.retrieve()
+				.bodyToMono(ResponseBodyRestDTO.class)
+				.block();
+		return responseBodyRestDTO;
 	}
 
 }
