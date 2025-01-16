@@ -44,7 +44,7 @@ public class InvoqueRestApiController {
 	}
 	
 	@GetMapping(value = "/userById/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseBodyRestDTO getUserById(@PathVariable int id) {
+	public ResponseBodyRestDTO getUserById(@PathVariable(required = true) int id) {
 		return userService.getUserById(id);
 	}
 
